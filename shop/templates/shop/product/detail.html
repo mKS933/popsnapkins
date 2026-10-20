@@ -1,0 +1,31 @@
+{% extends "shop/base.html" %}
+
+{% block title %}{{ product.name }} | PopSnapkins{% endblock %}
+
+{% block content %}
+    <div class="product-detail">
+        <div class="product-image-large">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="no-image">Нет фото</div>
+            {% endif %}
+        </div>
+        <div class="product-info">
+            <p class="breadcrumb"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
+            <h1>{{ product.name }}</h1>
+            <p class="price-large">{{ product.price }} ₴</p>
+            <p class="description">{{ product.description|linebreaks }}</p>
+
+            {% if product.stock > 0 %}
+                <form action="{% url 'shop:cart_add' product.id %}" method="post" class="add-to-cart-form">
+                    {% csrf_token %}
+                    {{ cart_product_form }}
+                    <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+                </form>
+            {% else %}
+                <p class="out-of-stock">Товара нет в наличии</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

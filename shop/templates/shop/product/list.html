@@ -1,0 +1,47 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if category %}{{ category.name }} — {% endif %}Каталог салфеток | PopSnapkins
+{% endblock %}
+
+{% block content %}
+    <div class="catalog-layout">
+        <aside class="sidebar">
+            <h3>Категории</h3>
+            <ul class="category-list">
+                <li{% if not category %} class="active"{% endif %}>
+                    <a href="{% url 'shop:product_list' %}">Все салфетки</a>
+                </li>
+                {% for c in categories %}
+                    <li{% if category.slug == c.slug %} class="active"{% endif %}>
+                        <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
+
+        <section class="product-grid">
+            <h1>{% if category %}{{ category.name }}{% else %}Все салфетки{% endif %}</h1>
+            {% if products %}
+                <div class="grid">
+                    {% for product in products %}
+                        <div class="product-card">
+                            <a href="{{ product.get_absolute_url }}" class="product-image">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                    <div class="no-image">Нет фото</div>
+                                {% endif %}
+                            </a>
+                            <h2><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h2>
+                            <p class="price">{{ product.price }} ₴</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>В этой категории пока нет товаров.</p>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Заказ принят | PopSnapkins{% endblock %}
+
+{% block content %}
+    <div class="order-created">
+        <h1>Спасибо за заказ!</h1>
+        <p>Ваш заказ <strong>№{{ order.id }}</strong> принят в обработку.</p>
+        <p>Мы свяжемся с вами по телефону {{ order.phone }} для подтверждения доставки.</p>
+        <a href="{% url 'shop:product_list' %}" class="btn btn-primary">Вернуться в каталог</a>
+    </div>
+{% endblock %}

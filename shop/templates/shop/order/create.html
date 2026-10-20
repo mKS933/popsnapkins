@@ -1,0 +1,25 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Оформление заказа | PopSnapkins{% endblock %}
+
+{% block content %}
+    <h1>Оформление заказа</h1>
+
+    <div class="order-layout">
+        <form method="post" class="order-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Подтвердить заказ</button>
+        </form>
+
+        <div class="order-summary">
+            <h3>Ваш заказ</h3>
+            <ul>
+                {% for item in cart %}
+                    <li>{{ item.product.name }} × {{ item.quantity }} — {{ item.total_price }} ₴</li>
+                {% endfor %}
+            </ul>
+            <p class="order-total">Итого: {{ cart.get_total_price }} ₴</p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PopSnapkins — салфетки{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="{% url 'shop:product_list' %}" class="logo">Pop<span>Snapkins</span></a>
+            <nav class="main-nav">
+                <a href="{% url 'shop:product_list' %}">Каталог</a>
+                <a href="{% url 'shop:cart_detail' %}" class="cart-link">
+                    Корзина
+                    {% if cart|length > 0 %}
+                        <span class="cart-badge">{{ cart|length }}</span>
+                    {% endif %}
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="message {{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; {% now "Y" %} PopSnapkins — красивые салфетки для дома и праздника.</p>
+        </div>
+    </footer>
+</body>
+</html>
